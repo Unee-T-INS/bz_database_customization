@@ -105,9 +105,6 @@ DELIMITER ;
 			, @new_schema_version
 		)
 		;
-		
-	# Timestamp:
-		SET @timestamp = NOW();
 
 	# We record that the table has been updated to the new version.
 	INSERT INTO `ut_db_schema_version`
