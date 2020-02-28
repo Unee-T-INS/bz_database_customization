@@ -115,7 +115,7 @@ DELIMITER ;
 		)
 		VALUES
 		(@new_schema_version
-		, @the_timestamp
+		, @timestamp
 		, @this_script
 		, @comment_update_schema_version
 		)
