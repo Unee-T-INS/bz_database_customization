@@ -10,6 +10,10 @@
 # What is the version of the Unee-T BZ Database schema AFTER this update?
 	SET @old_schema_version = 'v5.39.1';
 	SET @new_schema_version = 'v5.39.2';
+
+# What is the name of this script?
+	SET @this_script = 'replace_the_term_unit_with_policy';
+#
 #
 ###############################
 #
@@ -104,22 +108,18 @@ DELIMITER ;
 		
 	# Timestamp:
 		SET @timestamp = NOW();
-	
-	# Do the update
+
+	# We record that the table has been updated to the new version.
 	INSERT INTO `ut_db_schema_version`
-		(`id`
-		, `schema_version`
+		(`schema_version`
 		, `update_datetime`
+		, `update_script`
 		, `comment`
 		)
 		VALUES
-		( 1
-		, @new_schema_version
-		, @timestamp
+		(@new_schema_version
+		, @the_timestamp
+		, @this_script
 		, @comment_update_schema_version
 		)
-		ON DUPLICATE KEY UPDATE
-		`schema_version` = @new_schema_version
-		, `update_datetime` = @timestamp
-		, `comment` = @comment_update_schema_version
-		;	
+		;
