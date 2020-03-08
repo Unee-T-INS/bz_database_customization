@@ -2,13 +2,29 @@
 #
 # This script allows us to re-create all the triggers and procedures we need for lambdas in the the database.
 #
+############################################
+#
+# Make sure to update the below variable(s)
+#
+############################################
+#
+# What is the version of the Unee-T BZ Database schema AFTER this update?
+	SET @old_schema_version = 'v5.39.1';
+	SET @new_schema_version = 'v5.39.2';
+
+# What is the name of this script?
+	SET @this_script = '3_replace_the_term_unit_with_policy.sql';
+
+# When are we doing this?
+	SET @timestamp = NOW();
+
 ###################################################################################
 # IMPORTANT!! 
 #   1- make sure that the variable for the Lambda is correct for each environment
 #	  By default, this script creates procedures for the DEV environment.
 #	  See: https://github.com/unee-t/lambda2sns/blob/master/tests/call-lambda-as-root.sh#L5
 #   	- DEV/Staging: 182387550209
-#   	- Prod: aws_account_id_for_prod
+#   	- Prod: 846324192534
 #   	- Demo: aws_account_id_for_demo
 #   2- make sure that the following manadatory tables exist in the database:
 #		- `ut_notification_case_assignee`
@@ -50,6 +66,12 @@
 # Code to create these procedures:
 #
 
+###############################
+#
+# We have everything we need
+#
+###############################
+
 # `lambda_notification_case_assignee_updated` the latest version was introduced in schema v4.32
 #
 
@@ -78,7 +100,7 @@ SQL SECURITY INVOKER
 BEGIN
 	# https://github.com/unee-t/lambda2sns/blob/master/tests/call-lambda-as-root.sh#L5
 	#	- DEV/Staging: 182387550209
-	#	- Prod: aws_account_id_for_prod
+	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
 	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type' , notification_type
@@ -132,7 +154,7 @@ SQL SECURITY INVOKER
 BEGIN
 	# https://github.com/unee-t/lambda2sns/blob/master/tests/call-lambda-as-root.sh#L5
 	#	- DEV/Staging: 182387550209
-	#	- Prod: aws_account_id_for_prod
+	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
 	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type', notification_type
@@ -186,7 +208,7 @@ SQL SECURITY INVOKER
 BEGIN
 	# https://github.com/unee-t/lambda2sns/blob/master/tests/call-lambda-as-root.sh#L5
 	#	- DEV/Staging: 182387550209
-	#	- Prod: aws_account_id_for_prod
+	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
 	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type', notification_type
@@ -234,7 +256,7 @@ SQL SECURITY INVOKER
 BEGIN
 	# https://github.com/unee-t/lambda2sns/blob/master/tests/call-lambda-as-root.sh#L5
 	#	- DEV/Staging: 182387550209
-	#	- Prod: aws_account_id_for_prod
+	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
 	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type', notification_type
@@ -283,7 +305,7 @@ SQL SECURITY INVOKER
 BEGIN
 	# https://github.com/unee-t/lambda2sns/blob/master/tests/call-lambda-as-root.sh#L5
 	#	- DEV/Staging: 182387550209
-	#	- Prod: aws_account_id_for_prod
+	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
 	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT('notification_type', notification_type
@@ -916,3 +938,28 @@ END;
 $$
 
 DELIMITER ;
+
+# We can now update the version of the database schema
+	# A comment for the update
+		SET @comment_update_schema_version = CONCAT (
+			'Database updated from '
+			, @old_schema_version
+			, ' to '
+			, @new_schema_version
+		)
+		;
+
+	# We record that the table has been updated to the new version.
+	INSERT INTO `ut_db_schema_version`
+		(`schema_version`
+		, `update_datetime`
+		, `update_script`
+		, `comment`
+		)
+		VALUES
+		(@new_schema_version
+		, @timestamp
+		, @this_script
+		, @comment_update_schema_version
+		)
+		;

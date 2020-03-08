@@ -12,9 +12,11 @@
 	SET @new_schema_version = 'v5.39.2';
 
 # What is the name of this script?
-	SET @this_script = 'replace_the_term_unit_with_policy';
-#
-#
+	SET @this_script = '3_replace_the_term_unit_with_policy.sql';
+
+# When are we doing this?
+	SET @timestamp = NOW();
+
 ###############################
 #
 # We have everything we need

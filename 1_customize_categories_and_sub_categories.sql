@@ -3,6 +3,28 @@
 #   - Sub-Categories
 #   - Variables names in the UX for the BZFE
 
+############################################
+#
+# Make sure to update the below variable(s)
+#
+############################################
+#
+# What is the version of the Unee-T BZ Database schema AFTER this update?
+	SET @old_schema_version = 'v5.39.1';
+	SET @new_schema_version = 'v5.39.2';
+
+# What is the name of this script?
+	SET @this_script = '1_customize_categories_and_sub_categories.sql';
+
+# When are we doing this?
+	SET @timestamp = NOW();
+
+###############################
+#
+# We have everything we need
+#
+###############################
+
 /*!40101 SET NAMES utf8mb4 */;
 
 /*!40101 SET SQL_MODE=''*/;
@@ -147,3 +169,28 @@ DELIMITER ;
 # We call the procedure to update the fielddefs
 
     CALL `update_bz_fielddefs`;
+
+# We can now update the version of the database schema
+	# A comment for the update
+		SET @comment_update_schema_version = CONCAT (
+			'Database updated from '
+			, @old_schema_version
+			, ' to '
+			, @new_schema_version
+		)
+		;
+
+	# We record that the table has been updated to the new version.
+	INSERT INTO `ut_db_schema_version`
+		(`schema_version`
+		, `update_datetime`
+		, `update_script`
+		, `comment`
+		)
+		VALUES
+		(@new_schema_version
+		, @timestamp
+		, @this_script
+		, @comment_update_schema_version
+		)
+		;

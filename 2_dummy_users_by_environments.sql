@@ -1,5 +1,28 @@
 
-/* Procedure structure for procedure `table_to_list_dummy_user_by_environment` */
+# This script makes sure that we use the correct dummy users when we send invite
+# This is to fix GH issue https://github.com/Unee-T-INS/frontend/issues/11#issuecomment-575612058
+
+############################################
+#
+# Make sure to update the below variable(s)
+#
+############################################
+#
+# What is the version of the Unee-T BZ Database schema AFTER this update?
+	SET @old_schema_version = 'v5.39.1';
+	SET @new_schema_version = 'v5.39.2';
+
+# What is the name of this script?
+	SET @this_script = '2_dummy_users_by_environments.sql';
+
+# When are we doing this?
+	SET @timestamp = NOW();
+
+###############################
+#
+# We have everything we need
+#
+###############################
 
 DROP PROCEDURE IF EXISTS `table_to_list_dummy_user_by_environment` ;
 
@@ -32,3 +55,28 @@ BEGIN
 
 END $$
 DELIMITER ;
+
+# We can now update the version of the database schema
+	# A comment for the update
+		SET @comment_update_schema_version = CONCAT (
+			'Database updated from '
+			, @old_schema_version
+			, ' to '
+			, @new_schema_version
+		)
+		;
+
+	# We record that the table has been updated to the new version.
+	INSERT INTO `ut_db_schema_version`
+		(`schema_version`
+		, `update_datetime`
+		, `update_script`
+		, `comment`
+		)
+		VALUES
+		(@new_schema_version
+		, @timestamp
+		, @this_script
+		, @comment_update_schema_version
+		)
+		;

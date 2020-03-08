@@ -2,6 +2,23 @@
 #
 # This script allows us to re-create all the triggers and procedures we need for lambdas in the the database.
 #
+#
+############################################
+#
+# Make sure to update the below variable(s)
+#
+############################################
+#
+# What is the version of the Unee-T BZ Database schema AFTER this update?
+	SET @old_schema_version = 'v5.39.1';
+	SET @new_schema_version = 'v5.39.2';
+
+# What is the name of this script?
+	SET @this_script = '3_replace_the_term_unit_with_policy.sql';
+
+# When are we doing this?
+	SET @timestamp = NOW();
+
 ###################################################################################
 # IMPORTANT!! 
 #   1- make sure that the variable for the Lambda is correct for each environment
@@ -49,6 +66,12 @@
 #
 # Code to create these procedures:
 #
+
+###############################
+#
+# We have everything we need
+#
+###############################
 
 # `lambda_notification_case_assignee_updated` the latest version was introduced in schema v4.32
 #
@@ -916,3 +939,28 @@ END;
 $$
 
 DELIMITER ;
+
+# We can now update the version of the database schema
+	# A comment for the update
+		SET @comment_update_schema_version = CONCAT (
+			'Database updated from '
+			, @old_schema_version
+			, ' to '
+			, @new_schema_version
+		)
+		;
+
+	# We record that the table has been updated to the new version.
+	INSERT INTO `ut_db_schema_version`
+		(`schema_version`
+		, `update_datetime`
+		, `update_script`
+		, `comment`
+		)
+		VALUES
+		(@new_schema_version
+		, @timestamp
+		, @this_script
+		, @comment_update_schema_version
+		)
+		;
