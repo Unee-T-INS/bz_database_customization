@@ -104,13 +104,13 @@
             (7,'Change in policy',115,1,4),
             (8,'Addition',120,1,5),
             (9,'Deletion',200,1,5),
-            (10,'Urgent question',210,1,6)
+            (10,'Urgent question',210,1,6),
             (11,'Standard question',215,1,6),
             (12,'Urgent submission',220,1,6),
             (13,'Standard submission',225,1,6),
-            (15,'Reimbursement',230,1,6),
+            (14,'Reimbursement',230,1,6),
             (15,'Request for LOG',235,1,6),
-            (16,'Investigation',240,1,6),
+            (16,'Investigation',240,1,6)
         ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
