@@ -14,7 +14,7 @@
 	SET @new_schema_version = 'v5.39.2';
 
 # What is the name of this script?
-	SET @this_script = '3_replace_the_term_unit_with_policy.sql';
+	SET @this_script = '4_PROD_add_all_lambda_related_objects_v5.39.2_PROD.sql';
 
 # When are we doing this?
 	SET @timestamp = NOW();
