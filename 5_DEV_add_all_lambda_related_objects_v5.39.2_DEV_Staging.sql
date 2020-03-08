@@ -2,7 +2,6 @@
 #
 # This script allows us to re-create all the triggers and procedures we need for lambdas in the the database.
 #
-#
 ############################################
 #
 # Make sure to update the below variable(s)
@@ -14,7 +13,7 @@
 	SET @new_schema_version = 'v5.39.2';
 
 # What is the name of this script?
-	SET @this_script = '4_PROD_add_all_lambda_related_objects_v5.39.2_PROD.sql';
+	SET @this_script = '5_DEV_add_all_lambda_related_objects_v5.39.2_DEV_Staging.sql';
 
 # When are we doing this?
 	SET @timestamp = NOW();
@@ -103,7 +102,7 @@ BEGIN
 	#	- DEV/Staging: 182387550209
 	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
-	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:846324192534:function:ut_lambda2sqs_push')
+	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type' , notification_type
 			, 'bz_source_table', bz_source_table
 			, 'notification_id', notification_id
@@ -157,7 +156,7 @@ BEGIN
 	#	- DEV/Staging: 182387550209
 	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
-	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:846324192534:function:ut_lambda2sqs_push')
+	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type', notification_type
 			, 'bz_source_table', bz_source_table
 			, 'notification_id', notification_id
@@ -211,7 +210,7 @@ BEGIN
 	#	- DEV/Staging: 182387550209
 	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
-	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:846324192534:function:ut_lambda2sqs_push')
+	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type', notification_type
 			, 'bz_source_table', bz_source_table
 			, 'notification_id', notification_id
@@ -259,7 +258,7 @@ BEGIN
 	#	- DEV/Staging: 182387550209
 	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
-	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:846324192534:function:ut_lambda2sqs_push')
+	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT ('notification_type', notification_type
 			, 'bz_source_table', bz_source_table
 			, 'notification_id', notification_id
@@ -308,7 +307,7 @@ BEGIN
 	#	- DEV/Staging: 182387550209
 	#	- Prod: 846324192534
 	#	- Demo: aws_account_id_for_demo
-	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:846324192534:function:ut_lambda2sqs_push')
+	CALL mysql.lambda_async(CONCAT('arn:aws:lambda:ap-southeast-1:182387550209:function:ut_lambda2sqs_push')
 		, JSON_OBJECT('notification_type', notification_type
 			, 'bz_source_table', bz_source_table
 			, 'notification_id', notification_id

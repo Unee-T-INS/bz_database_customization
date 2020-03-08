@@ -48,10 +48,20 @@ BEGIN
 			) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 		/*Data for the table `ut_temp_dummy_users_for_roles` */
-			INSERT INTO `ut_temp_dummy_users_for_roles`(`environment_id`, `environment_name`, `tenant_id`, `landlord_id`, `contractor_id`, `mgt_cny_id`, `agent_id`) values 
-				(1,'DEV/Staging', 4, 3, 5, 6, 2),
-				(2,'Prod', 4, 3, 5, 6, 2),
-				(3,'demo/dev', 4, 3, 5, 6, 2);
+			INSERT INTO `ut_temp_dummy_users_for_roles`
+				(`environment_id`
+				, `environment_name`
+				, `tenant_id`
+				, `landlord_id`
+				, `contractor_id`
+				, `mgt_cny_id`
+				, `agent_id`
+				) 
+				VALUES
+					(1,'DEV/Staging', 4, 3, 5, 6, 2),
+					(2,'Prod', 4, 3, 5, 6, 2),
+					(3,'demo/dev', 4, 3, 5, 6, 2)
+				;
 
 END $$
 DELIMITER ;
